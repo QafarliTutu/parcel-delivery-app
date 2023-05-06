@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health
+  endpoint:
+    health:
+      enabled: true
+
+app:
+  jwt:
+    secret: appsecretkey
+  services:
+    user: http://localhost:8081
+    order: http://localhost:8082
+    delivery: http://localhost:8083

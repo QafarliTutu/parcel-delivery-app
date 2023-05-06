@@ -1,0 +1,89 @@
+version: '0.0.1'
+
+networks:
+  my_network:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ParcelDeliveryAppDatabase
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    networks:
+      - my_network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/rw
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq:rw
+    networks:
+      - my_network
+
+  api-gateway:
+    image: api-gateway
+    container_name: "api-gateway"
+    networks:
+      - my_network
+    ports:
+      - "8080:8080"
+
+  ms-user:
+    image: ms-user
+    container_name: "ms-user"
+    networks:
+      - my_network
+    ports:
+      - "8081:8081"
+    environment:
+      DB_PORT: 5434
+    depends_on:
+      - postgres
+      - rabbitmq
+    links:
+      - postgres
+      - rabbitmq
+
+  ms-order:
+    image: ms-order
+    container_name: "ms-order"
+    networks:
+      - my_network
+    ports:
+      - "8082:8082"
+    environment:
+      DB_PORT: 5434
+    depends_on:
+      - postgres
+      - rabbitmq
+    links:
+      - postgres
+      - rabbitmq
+
+  ms-delivery:
+    image: ms-delivery
+    container_name: "ms-delivery"
+    networks:
+      - my_network
+    ports:
+      - "8083:8083"
+    environment:
+      DB_PORT: 5434
+    depends_on:
+      - postgres
+      - rabbitmq
+    links:
+      - postgres
+      - rabbitmq
+
