@@ -1,7 +1,7 @@
 version: '0.0.1'
 
 networks:
-  my_network:
+  app_network:
     driver: bridge
 
 services:
@@ -16,8 +16,9 @@ services:
       POSTGRES_DB: ParcelDeliveryAppDatabase
     volumes:
       - ./data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - my_network
+      - app_network
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -29,25 +30,34 @@ services:
       - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/rw
       - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq:rw
     networks:
-      - my_network
+      - app_network
 
   api-gateway:
     image: api-gateway
     container_name: "api-gateway"
+    restart: always
+    environment:
+      MS_USER: ms-user
+      MS_ORDER: ms-order
+      MS_DELIVERY: ms-delivery
     networks:
-      - my_network
+      - app_network
     ports:
       - "8080:8080"
 
   ms-user:
     image: ms-user
     container_name: "ms-user"
+    restart: always
     networks:
-      - my_network
+      - app_network
     ports:
       - "8081:8081"
     environment:
-      DB_PORT: 5434
+      DB_HOST: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      RABBITMQ: rabbitmq
     depends_on:
       - postgres
       - rabbitmq
@@ -58,12 +68,16 @@ services:
   ms-order:
     image: ms-order
     container_name: "ms-order"
+    restart: always
     networks:
-      - my_network
+      - app_network
     ports:
       - "8082:8082"
     environment:
-      DB_PORT: 5434
+      DB_HOST: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      RABBITMQ: rabbitmq
     depends_on:
       - postgres
       - rabbitmq
@@ -74,12 +88,16 @@ services:
   ms-delivery:
     image: ms-delivery
     container_name: "ms-delivery"
+    restart: always
     networks:
-      - my_network
+      - app_network
     ports:
       - "8083:8083"
     environment:
-      DB_PORT: 5434
+      DB_HOST: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      RABBITMQ: rabbitmq
     depends_on:
       - postgres
       - rabbitmq

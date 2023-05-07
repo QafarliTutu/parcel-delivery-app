@@ -14,6 +14,6 @@ app:
   jwt:
     secret: appsecretkey
   services:
-    user: http://localhost:8081
-    order: http://localhost:8082
-    delivery: http://localhost:8083
+    user: http://${MS_USER:localhost}
+    order: http://${MS_ORDER:localhost}
+    delivery: http://${MS_DELIVERY:localhost}

@@ -21,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "_role")
+@Table(name = "_role", schema = "msuser")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Role {
 

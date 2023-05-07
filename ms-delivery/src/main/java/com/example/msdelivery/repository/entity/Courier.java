@@ -25,7 +25,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "_courier")
+@Table(name = "_courier", schema = "msdelivery")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Courier {
 

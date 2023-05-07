@@ -27,7 +27,7 @@ import org.hibernate.annotations.Where;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "_user")
+@Table(name = "_user", schema = "msuser")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Where(clause = "is_active = true")
 public class User {
@@ -58,6 +58,7 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            schema = "msuser")
     Set<Role> roles;
 }

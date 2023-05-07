@@ -29,17 +29,17 @@ public class RouteConfig {
         return builder.routes()
                 .route("user", r -> r
                         .path("/api/v1/users/**")
-                        .uri(userURI))
+                        .uri(userURI + ":8081"))
                 .route("order", r -> r
                         .path("/api/v1/orders/**")
                         .filters(f -> f.filter(jwtFilter))
-                        .uri(orderURI))
+                        .uri(orderURI + ":8082"))
                 .route("delivery", r -> r
                         .path("/api/v1/deliveries/**")
                         .or()
                         .path("/api/v1/couriers/**")
                         .filters(f -> f.filter(jwtFilter))
-                        .uri(deliveryURI))
+                        .uri(deliveryURI + ":8083"))
                 .build();
     }
 

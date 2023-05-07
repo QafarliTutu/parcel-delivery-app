@@ -28,7 +28,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "_order")
+@Table(name = "_order", schema = "msorder")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Order {
 
