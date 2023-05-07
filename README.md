@@ -10,6 +10,7 @@ This application is a simple parcel delivery application created to demonstrate 
 * Spring Security with JWT Token
 * Spring Cloud Gateway
 * Rabbitmq
+* PostgreSQL
 * Docker
 * Swagger
 
