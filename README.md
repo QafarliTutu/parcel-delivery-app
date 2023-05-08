@@ -50,10 +50,10 @@ To run the Parcel Delivery App, follow these steps:
 1. Clone the repository: `git clone https://github.com/QafarliTutu/parcel-delivery-app.git`
 2. Navigate to the project directory: `cd parcel-delivery-app`
 3. Navigate to every module and build the Docker images:
-4. `docker build -t api-gateway .`
-5. `docker build -t ms-user .`
-6. `docker build -t ms-order .`
-7. `docker build -t ms-delivery .`
+4. `./gradlew build -x test` and `docker build -t api-gateway .`
+5. `./gradlew build -x test` and `docker build -t ms-user .`
+6. `./gradlew build -x test` and `docker build -t ms-order .`
+7. `./gradlew build -x test` and `docker build -t ms-delivery .`
 8. Start the Docker containers: `docker-compose up`
 
 The Parcel Delivery App should now be up and running. You can access the Api-Gateway at [http://localhost:8080](https://github.com/QafarliTutu/parcel-delivery-app.git).
